@@ -12,7 +12,7 @@ from django.utils.deprecation import MiddlewareMixin
 class LoginCheck(MiddlewareMixin):
     def process_request(self, request):
         path = request.path_info.lstrip('/')
-        if path.find('user') != -1:  # 如果url有user
+        if path.find('user') == 0:  # 如果url有user开头
             urls = {'user/login/', 'user/doLogin/'}  # 可放行url
             if path not in urls:
                 ID = request.session.get('id')

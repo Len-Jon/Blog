@@ -1,0 +1,86 @@
+{% extends 'superadmin/index.html' %}
+{% block contentBody %}
+
+    {% load static %}
+    <!DOCTYPE html>
+    <html>
+
+    <head>
+
+        <meta charset="utf-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+
+        <title> - 数据表格</title>
+        <meta name="keywords" content="">
+        <meta name="description" content="">
+
+        <link rel="shortcut icon" href="{% static 'favicon.ico' %}">
+        <link href="{% static 'hadmin/css/bootstrap.min.css' %}?v=3.3.6" rel="stylesheet">
+        <link href="{% static 'hadmin/css/font-awesome.css' %}?v=4.4.0" rel="stylesheet">
+        <!-- Data Tables -->
+        <link href="{% static 'hadmin/css/plugins/dataTables/dataTables.bootstrap.css' %}" rel="stylesheet">
+        <link href="{% static 'hadmin/css/animate.css' %}" rel="stylesheet">
+        <link href="{% static 'hadmin/css/style.css' %}?v=4.1.0" rel="stylesheet">
+
+    </head>
+
+    <body class="gray-bg">
+    <div class="wrapper wrapper-content animated fadeInRight">
+        <div class="row">
+            <div class="col-sm-12">
+                <div class="ibox float-e-margins">
+                    <div class="ibox-title">
+                        <h5>用户列表</h5>
+                    </div>
+                    <div class="ibox-content">
+
+                        <table class="table table-striped table-bordered table-hover dataTables-example">
+                            <thead>
+                            <tr>
+                                <th>用户id</th>
+                                <th>用户姓名</th>
+                                <th>查看用户视角</th>
+                            </tr>
+                            </thead>
+                            <tbody>
+                            {# 后端分页以后再说 #}
+                            {% for user in users %}
+                                <tr class="gradeX">
+                                    <td>{{ user.id }}</td>
+                                    <td>{{ user.name }}</td>
+                                    <td><a href="/admin/monitor/{{ user.id }}/">监视用户</a></td>
+                                </tr>
+                            {% empty %}
+                                <tr class="odd">
+                                    <td valign="top" colspan="5" class="dataTables_empty">没有找到符合条件的记录</td>
+                                </tr>
+                            {% endfor %}
+                            </tbody>
+                        </table>
+
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- 全局js -->
+    <script src="{% static 'hadmin/js/jquery.min.js' %}?v=2.1.4"></script>
+    <script src="{% static 'hadmin/js/bootstrap.min.js' %}?v=3.3.6"></script>
+
+    <!-- Data Tables -->
+    <script src="{% static 'hadmin/js/plugins/dataTables/jquery.dataTables.js' %}"></script>
+    <script src="{% static 'hadmin/js/plugins/dataTables/dataTables.bootstrap.js' %}"></script>
+
+    <!-- Page-Level Scripts -->
+    <script>
+        $(".user-manage").addClass('active');
+        $(".user-manage").find(".nav-second-level").addClass('in');
+        $($(".user-manage-second-level").children("li").get(0).addClass('active');
+    </script>
+
+    </body>
+
+    </html>
+{% endblock %}
