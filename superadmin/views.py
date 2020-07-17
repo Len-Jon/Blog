@@ -26,23 +26,29 @@ def doLogin(request):
     m = models.Admin.objects.get(name=request.POST['name'])
     if m.password == request.POST['password']:
         request.session['super_id'] = m.id
-        request.session['name'] = m.name
+        request.session['admin_name'] = m.name
         return HttpResponse("True")
     else:
         return HttpResponse("Your username and password didn't match.")
 
 
 def index(request):
-    return render(request, 'superadmin/index.html')
+    return render(request, 'superadmin/index.html', {'admin_name': request.session['admin_name']})
 
 
 def userList(request):
-    return render(request, 'superadmin/userList.html', {'users': User.objects.all()})
+    return render(request, 'superadmin/userList.html',
+                  {'users': User.objects.all(), 'admin_name': request.session['admin_name']})
 
 
 def monitor(request, user_id):
     request.session['id'] = int(user_id)
-    return render(request, 'superadmin/monitor.html', {'url': '/user/index'})
+    print(User.objects.get(id=int(user_id)).name)
+    request.session['name'] = User.objects.get(id=int(user_id)).name
+
+    return render(request, 'superadmin/monitor.html',
+                  {'url': '/user/index', 'admin_name': request.session['admin_name'] + ' 正在使用此用户视角：' + User.objects.get(
+                      id=int(user_id)).name}, )
 
 
 def logout(request):

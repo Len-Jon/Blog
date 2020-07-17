@@ -20,7 +20,7 @@ def index(request):
     :param request: request
     :return: 返回管理员主页
     """
-    return render(request, "userAdmin/index.html")
+    return render(request, "userAdmin/index.html",{"user_name": request.session['name']})
 
 
 """
@@ -101,7 +101,7 @@ def new_markdown(request):
     :param request:
     :return: 返回新markdown文章
     """
-    return render(request, 'userAdmin/new_markdown.html')
+    return render(request, 'userAdmin/new_markdown.html', {"user_name": request.session['name']})
 
 
 def markdownList(request):
@@ -110,7 +110,8 @@ def markdownList(request):
     :return: 返回文章列表页面
     """
     return render(request, 'userAdmin/article_list.html',
-                  {'sign': 0, 'items': models.Article.objects.filter(articleType=0, author_id=request.session['id'])})
+                  {"user_name": request.session['name'], 'sign': 0,
+                   'items': models.Article.objects.filter(articleType=0, author_id=request.session['id'])})
 
 
 def deleteMarkdown(request, ID):
@@ -124,7 +125,8 @@ def deleteMarkdown(request, ID):
     if request.session['id'] != obj.author_id:
         return render(request, '404.html')
     return render(request, 'userAdmin/article_list.html',
-                  {'sign': 0, 'items': models.Article.objects.filter(articleType=0, author_id=request.session['id'])})
+                  {"user_name": request.session['name'], 'sign': 0,
+                   'items': models.Article.objects.filter(articleType=0, author_id=request.session['id'])})
 
 
 def updateMarkdown(request, ID):
@@ -139,7 +141,8 @@ def updateMarkdown(request, ID):
         return render(request, '404.html')
     content = obj.content.replace('"', r'\"').replace('\n', r'\n').replace('/', '\\/')
     # .replace('<', '&#lt;').replace('>', '&#gt;')  # 因为前端用的是双引号把字符包裹起来，所以只用转义这个
-    return render(request, 'userAdmin/update_markdown.html', {'item': obj, 'content': content})
+    return render(request, 'userAdmin/update_markdown.html',
+                  {"user_name": request.session['name'], 'item': obj, 'content': content})
 
 
 """
@@ -153,7 +156,8 @@ def new_rtf(request):
 
 def rtfList(request):
     return render(request, 'userAdmin/article_list.html',
-                  {'sign': 1, 'items': models.Article.objects.filter(articleType=1, author_id=request.session['id'])})
+                  {"user_name": request.session['name'], 'sign': 1,
+                   'items': models.Article.objects.filter(articleType=1, author_id=request.session['id'])})
 
 
 def deleteRtf(request, ID):
@@ -168,7 +172,8 @@ def deleteRtf(request, ID):
         return render(request, '404.html')
     models.Article.objects.filter(id=ID).delete()
     return render(request, 'userAdmin/article_list.html',
-                  {'sign': 1, 'items': models.Article.objects.filter(articleType=1, author_id=request.session['id'])})
+                  {"user_name": request.session['name'], 'sign': 1,
+                   'items': models.Article.objects.filter(articleType=1, author_id=request.session['id'])})
 
 
 def updateRtf(request, ID):
@@ -181,4 +186,5 @@ def updateRtf(request, ID):
     if request.session['id'] != obj.author_id:
         return render(request, '404.html')
     content = obj.content.replace('"', r'\"')  # 因为前端用的是双引号把字符包裹起来，所以只用转义这个
-    return render(request, 'userAdmin/update_rtf.html', {'item': obj, 'content': content})
+    return render(request, 'userAdmin/update_rtf.html',
+                  {"user_name": request.session['name'], 'item': obj, 'content': content})
