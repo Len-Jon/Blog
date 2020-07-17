@@ -20,5 +20,5 @@ from blog import settings
 
 urlpatterns = [
     re_path(r'media/(?P<path>.*)$', serve, {'document_root': settings.MEDIA_ROOT}),
-    path('user/', include('user.urls')),
+    path('user/', include('userBlog.urls')),
 ]
