@@ -41,13 +41,13 @@
         <div class="collapse navbar-collapse" id="navbarResponsive">
             <ul class="navbar-nav ml-auto">
                 <li class="nav-item">
-                    <a class="nav-link" href="index.html">Home</a>
+                    <a class="nav-link" href="/user/index/">Home</a>
                 </li>
                 <li class="nav-item">
                     <a class="nav-link" href="about.html">About</a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link" href="post.html">Sample Post</a>
+                    <a class="nav-link" href="/user/admin/">后台</a>
                 </li>
                 <li class="nav-item">
                     <a class="nav-link" href="contact.html">Contact</a>
@@ -78,7 +78,7 @@
         <div class="col-lg-8 col-md-10 mx-auto">
             {% for item in items %}
                 <div class="post-preview">
-                    <a href="/page/{{ item.id }}">
+                    <a href="/user/page/{{ item.id }}">
                         <h2 class="post-title">
                             {{ item.title }}
                         </h2>

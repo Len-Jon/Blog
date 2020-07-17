@@ -16,4 +16,8 @@ urlpatterns = [
     url(r'^logout/$', views.logout),  # 登出请求
     url(r'^register/$', views.register),  # 注册
     url(r'^doRegister/$', views.doRegister),  # 实现注册
+
+    url(r'^$', views.index),
+    url(r'^index/$', views.index),
+    url(r'^page/(\d+)/$', views.page),
 ]

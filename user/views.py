@@ -45,7 +45,7 @@ def uploadArticle(request):
     :return: 将文章上传到数据库
     """
     models.Article.objects.create(title=request.POST['title'], articleType=request.POST['articleType'],
-                                  content=request.POST['content'])
+                                  content=request.POST['content'], author_id=request.session['id'])
     return HttpResponse('ok')
 
 
@@ -55,7 +55,10 @@ def doUploadArticle(request):
     :param request:
     :return: 将文章更新到数据库
     """
+
     item = models.Article.objects.get(id=request.POST['id'])
+    if request.session['id'] != item.author_id:
+        return render(request, '404.html')
     item.title = request.POST['title']
     item.content = request.POST['content']
     item.save()
@@ -107,7 +110,7 @@ def markdownList(request):
     :return: 返回文章列表页面
     """
     return render(request, 'userAdmin/article_list.html',
-                  {'sign': 0, 'items': models.Article.objects.filter(articleType=0)})
+                  {'sign': 0, 'items': models.Article.objects.filter(articleType=0, author_id=request.session['id'])})
 
 
 def deleteMarkdown(request, ID):
@@ -117,9 +120,10 @@ def deleteMarkdown(request, ID):
     :param request:
     :return: 返回文章列表页面
     """
-    models.Article.objects.filter(id=ID).delete()
+    if request.session['id'] == int(ID):
+        models.Article.objects.filter(id=ID).delete()
     return render(request, 'userAdmin/article_list.html',
-                  {'sign': 0, 'items': models.Article.objects.filter(articleType=0)})
+                  {'sign': 0, 'items': models.Article.objects.filter(articleType=0, author_id=request.session['id'])})
 
 
 def updateMarkdown(request, ID):
@@ -128,6 +132,8 @@ def updateMarkdown(request, ID):
     :param ID: 文章id
     :return:
     """
+    if request.session['id'] != int(ID):
+        return render(request, '404.html')
     obj = models.Article.objects.get(id=ID)
     content = obj.content.replace('"', r'\"').replace('\n', r'\n').replace('/', '\\/')
     # .replace('<', '&#lt;').replace('>', '&#gt;')  # 因为前端用的是双引号把字符包裹起来，所以只用转义这个
@@ -145,7 +151,7 @@ def new_rtf(request):
 
 def rtfList(request):
     return render(request, 'userAdmin/article_list.html',
-                  {'sign': 1, 'items': models.Article.objects.filter(articleType=1)})
+                  {'sign': 1, 'items': models.Article.objects.filter(articleType=1, author_id=request.session['id'])})
 
 
 def deleteRtf(request, ID):
@@ -155,9 +161,10 @@ def deleteRtf(request, ID):
     :param request:
     :return: 返回文章列表页面
     """
-    models.Article.objects.filter(id=ID).delete()
+    if request.session['id'] == int(ID):
+        models.Article.objects.filter(id=ID).delete()
     return render(request, 'userAdmin/article_list.html',
-                  {'sign': 1, 'items': models.Article.objects.filter(articleType=1)})
+                  {'sign': 1, 'items': models.Article.objects.filter(articleType=1, author_id=request.session['id'])})
 
 
 def updateRtf(request, ID):
@@ -166,6 +173,8 @@ def updateRtf(request, ID):
     :param ID: 文章id
     :return:
     """
+    if request.session['id'] != int(ID):
+        return render(request, '404.html')
     obj = models.Article.objects.get(id=ID)
     content = obj.content.replace('"', r'\"')  # 因为前端用的是双引号把字符包裹起来，所以只用转义这个
     return render(request, 'userAdmin/update_rtf.html', {'item': obj, 'content': content})

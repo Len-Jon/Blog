@@ -53,11 +53,11 @@
                                     <td>{{ item.createTime }}</td>
                                     <td>{{ item.updateTime }}</td>
                                     {% if sign == 0 %}
-                                        <td><a href="/admin/updateMarkdown/{{ item.id }}/">编辑文章</a></td>
-                                        <td><a href="/admin/deleteMarkdown/{{ item.id }}/">删除文章</a></td>
+                                        <td><a href="/user/admin/updateMarkdown/{{ item.id }}/">编辑文章</a></td>
+                                        <td><a href="/user/admin/deleteMarkdown/{{ item.id }}/">删除文章</a></td>
                                     {% elif sign == 1 %}
-                                        <td><a href="/admin/updateRtf/{{ item.id }}/">编辑文章</a></td>
-                                        <td><a href="/admin/deleteRtf/{{ item.id }}/">删除文章</a></td>
+                                        <td><a href="/user/admin/updateRtf/{{ item.id }}/">编辑文章</a></td>
+                                        <td><a href="/user/admin/deleteRtf/{{ item.id }}/">删除文章</a></td>
                                     {% endif %}
                                 </tr>
                             {% empty %}

@@ -77,7 +77,7 @@
                     'outdent',
                 ],
                 upload: {
-                    url: '/admin/uploadImage/',
+                    url: '/user/admin/uploadImage/',
                     params: null,
                     fileKey: 'upload_file',
                     connectionCount: 3,
@@ -96,13 +96,13 @@
         $("#submit").click(function () {
             var title = $("#title").val();
             var content = editor.getValue();
-            $.post("/admin/doUploadArticle/", {
+            $.post("/user/admin/doUploadArticle/", {
                 'id':{{ item.id }},
                 "title": title,
                 "content": content,
             }, function (data) {
                 alert('上传成功');
-                window.location.href = "/admin/rtfList/";
+                window.location.href = "/user/admin/rtfList/";
             });
 
         });

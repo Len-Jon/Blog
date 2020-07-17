@@ -57,7 +57,7 @@
                 height: "550px",
                 imageUpload: true,          // Enable/disable upload
                 imageFormats: ["jpg", "jpeg", "gif", "png", "bmp", "webp"],
-                imageUploadURL: "/admin/uploadImg/",
+                imageUploadURL: "/user/admin/uploadImg/",
                 path: "{% static 'hadmin/js/plugins/editormd/lib/' %}"  // Autoload modules mode, codemirror, marked... dependents libs path
             });
         });
@@ -72,13 +72,13 @@
             var title = $("#title").val();
             var content = $("[name=editor-markdown-doc]").val();
             var articleType = 0;
-            $.post("/admin/uploadArticle/", {
+            $.post("/user/admin/uploadArticle/", {
                 "title": title,
                 "content": content,
                 "articleType": articleType
             }, function (data) {
                 alert('上传成功');
-                window.location.href = "/admin/markdownList/";
+                window.location.href = "/user/admin/markdownList/";
             });
 
         });

@@ -32,11 +32,15 @@ def doLogin(request):
 
 
 def index(request):
-    """
-    :param request: request
-    :return: 返回管理员主页
-    """
-    return render(request, "cleanblog/index.html")
+    return render(request, 'cleanblog/index.html',
+                  {'items': models.Article.objects.filter(author_id=request.session['id'])})
+
+
+def page(request, ID):
+    obj = models.Article.objects.get(id=ID)
+    if obj.author_id != request.session['id']:
+        pass
+    return render(request, 'cleanblog/page.html', {'item': obj})
 
 
 def logout(request):
@@ -67,3 +71,10 @@ def doRegister(request):
         pass
         models.User.objects.create(name=request.POST['name'], password=request.POST['password'])
     return HttpResponse('True')
+
+
+def page(request, ID):
+    if request.session['id'] != int(ID):
+        return render(request, '404.html')
+    obj = models.Article.objects.get(id=ID)
+    return render(request, 'cleanblog/page.html', {'item': obj})
