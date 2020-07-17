@@ -1,5 +1,5 @@
 from django.http import HttpResponseRedirect, HttpResponse
-from django.shortcuts import render
+from django.shortcuts import render, redirect
 
 # Create your views here.
 from django.views.decorators.csrf import csrf_exempt
@@ -43,3 +43,16 @@ def userList(request):
 def monitor(request, user_id):
     request.session['id'] = int(user_id)
     return render(request, 'superadmin/monitor.html', {'url': '/user/index'})
+
+
+def logout(request):
+    """
+    登出请求
+    :param request: request
+    :return: 重定向至login
+    """
+    # request.session.clear()  # 清空的是值
+    response = redirect('/admin/login')
+    response.delete_cookie('sessionid')
+    # request.session.flush()  # 键和值一起清空
+    return response
