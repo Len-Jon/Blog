@@ -17,7 +17,7 @@ urlpatterns = [
     url(r'^register/$', views.register),  # 注册
     url(r'^doRegister/$', views.doRegister),  # 实现注册
 
-    url(r'^$', views.index),
+    url(r'^$', views.redirectTo),
     url(r'^index/$', views.index),
     url(r'^page/(\d+)/$', views.page),
 ]

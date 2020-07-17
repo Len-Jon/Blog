@@ -1,4 +1,4 @@
-from django.http import HttpResponse
+from django.http import HttpResponse, HttpResponseRedirect
 from django.shortcuts import render, redirect
 
 # Create your views here.
@@ -78,3 +78,7 @@ def page(request, ID):
         return render(request, '404.html')
     obj = models.Article.objects.get(id=ID)
     return render(request, 'cleanblog/page.html', {'item': obj})
+
+
+def redirectTo(request):
+    return HttpResponseRedirect('/user/index')

@@ -14,11 +14,14 @@ Including another URLconf
     2. Add a URL to urlpatterns:  path('blog/', include('blog.urls'))
 """
 from django.urls import path, include, re_path
+from django.conf.urls import url
 from django.views.static import serve
 
+from .views import redirect
 from blog import settings
 
 urlpatterns = [
     re_path(r'media/(?P<path>.*)$', serve, {'document_root': settings.MEDIA_ROOT}),
     path('user/', include('userBlog.urls')),
+    url(r'^$', redirect),
 ]
