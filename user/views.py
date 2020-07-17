@@ -120,8 +120,9 @@ def deleteMarkdown(request, ID):
     :param request:
     :return: 返回文章列表页面
     """
-    if request.session['id'] == int(ID):
-        models.Article.objects.filter(id=ID).delete()
+    obj = models.Article.objects.get(id=ID)
+    if request.session['id'] != obj.author_id:
+        return render(request, '404.html')
     return render(request, 'userAdmin/article_list.html',
                   {'sign': 0, 'items': models.Article.objects.filter(articleType=0, author_id=request.session['id'])})
 
@@ -132,9 +133,10 @@ def updateMarkdown(request, ID):
     :param ID: 文章id
     :return:
     """
-    if request.session['id'] != int(ID):
-        return render(request, '404.html')
+
     obj = models.Article.objects.get(id=ID)
+    if request.session['id'] != obj.author_id:
+        return render(request, '404.html')
     content = obj.content.replace('"', r'\"').replace('\n', r'\n').replace('/', '\\/')
     # .replace('<', '&#lt;').replace('>', '&#gt;')  # 因为前端用的是双引号把字符包裹起来，所以只用转义这个
     return render(request, 'userAdmin/update_markdown.html', {'item': obj, 'content': content})
@@ -161,8 +163,10 @@ def deleteRtf(request, ID):
     :param request:
     :return: 返回文章列表页面
     """
-    if request.session['id'] == int(ID):
-        models.Article.objects.filter(id=ID).delete()
+    obj = models.Article.objects.get(id=ID)
+    if request.session['id'] != obj.author_id:
+        return render(request, '404.html')
+    models.Article.objects.filter(id=ID).delete()
     return render(request, 'userAdmin/article_list.html',
                   {'sign': 1, 'items': models.Article.objects.filter(articleType=1, author_id=request.session['id'])})
 
@@ -173,8 +177,8 @@ def updateRtf(request, ID):
     :param ID: 文章id
     :return:
     """
-    if request.session['id'] != int(ID):
-        return render(request, '404.html')
     obj = models.Article.objects.get(id=ID)
+    if request.session['id'] != obj.author_id:
+        return render(request, '404.html')
     content = obj.content.replace('"', r'\"')  # 因为前端用的是双引号把字符包裹起来，所以只用转义这个
     return render(request, 'userAdmin/update_rtf.html', {'item': obj, 'content': content})

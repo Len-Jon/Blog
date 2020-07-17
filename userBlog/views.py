@@ -7,6 +7,10 @@ from django.views.decorators.csrf import csrf_exempt
 from user import models
 
 
+def redirectTo(request):
+    return HttpResponseRedirect('/user/index')
+
+
 def login(request):
     """
     :param request: request
@@ -38,8 +42,8 @@ def index(request):
 
 def page(request, ID):
     obj = models.Article.objects.get(id=ID)
-    if obj.author_id != request.session['id']:
-        pass
+    if request.session['id'] != obj.author_id:
+        return render(request, '404.html')
     return render(request, 'cleanblog/page.html', {'item': obj})
 
 
@@ -71,14 +75,3 @@ def doRegister(request):
         pass
         models.User.objects.create(name=request.POST['name'], password=request.POST['password'])
     return HttpResponse('True')
-
-
-def page(request, ID):
-    if request.session['id'] != int(ID):
-        return render(request, '404.html')
-    obj = models.Article.objects.get(id=ID)
-    return render(request, 'cleanblog/page.html', {'item': obj})
-
-
-def redirectTo(request):
-    return HttpResponseRedirect('/user/index')
